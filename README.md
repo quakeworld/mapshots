@@ -1,2 +1,22 @@
 # mapshots
-Screenshots of QuakeWorld maps (mapshots).
+
+> QuakeWorld Map Screenshots
+
+Used on various QuakeWorld websites, for example [QuakeWorld Hub](https://hub.quakeworld.nu).
+
+## Usage
+
+The mapshots are available via a AWS Cloudfront instance @ `https://a.quake.world/maphots/`
+
+```html
+<img src="https://a.quake.world/mapshots/sm/ztndm3.webp" />
+<img src="https://a.quake.world/mapshots/lg/ztndm3.webp" />
+```
+
+## Source
+
+These mapshots were created using [automapshot-fte](https://github.com/vikpe/automapshot-fte) with the following settings:
+
+- Camera position/angles from [configs/maps.json](./configs/maps.json).
+- Textures from [Quake Retexturing Project](http://qrp.quakeone.com/).
+- Resized to `1280x720` pixels.
