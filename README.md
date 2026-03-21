@@ -6,7 +6,7 @@ Used on various QuakeWorld websites, for example [QuakeWorld Hub](https://hub.qu
 
 ## Usage
 
-The mapshots are available via a AWS Cloudfront instance @ `https://assets.quake.world/maphots/`
+The mapshots are available via a Cloudflare CDN @ `https://assets.quake.world/maphots/`
 
 ```html
 <img src="https://assets.quake.world/mapshots/sm/ztndm3.webp" />
