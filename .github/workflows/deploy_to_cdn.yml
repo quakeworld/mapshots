@@ -24,7 +24,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          apt install -y libvips-tools libwebp-dev parallel awscli
+          sudo apt install -y libvips-tools libwebp-dev parallel awscli
 
       - name: Prepare directories
         run: |
