@@ -1,0 +1,46 @@
+name: Deploy to CDN
+
+on:
+  push:
+    branches:
+      - feature/deploy-to-cdn
+    paths:
+      - "*.webp"
+
+jobs:
+  deploy:
+    name: Deploy to CDN
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      ENDPOINT_URL: ${{ secrets.S3_ENDPOINT_URL }}
+      AWS_REGION: auto
+      AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Install dependencies
+        run: |
+          apt install -y libvips-tools libwebp-dev parallel awscli
+
+      - name: Prepare directories
+        run: |
+          mkdir -p dist/mapshots/lg dist/mapshots/sm
+          mv *.webp dist/mapshots/lg/ || echo "No .webp files found in root"
+
+      - name: Create thumbnails
+        run: |
+          echo "creating thumbnails..."
+          parallel vips resize {} dist/mapshots/sm/{/} 0.5 ::: dist/mapshots/lg/*.webp
+
+      - name: Deploy to CDN
+        run: |
+          echo "deploying..."
+          aws s3 sync dist/mapshots s3://assets/mapshots \
+              --endpoint-url ${ENDPOINT_URL} \
+              --exclude "*" --include "*.webp" \
+              --size-only \
+              --metadata-directive REPLACE \
+              --cache-control "public,max-age=2592000"
