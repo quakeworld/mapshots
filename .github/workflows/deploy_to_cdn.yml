@@ -6,6 +6,7 @@ on:
       - feature/deploy-to-cdn
     paths:
       - "*.webp"
+      - ".github/workflows/deploy_to_cdn.yml"
 
 jobs:
   deploy:
